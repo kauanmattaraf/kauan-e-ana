@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaju Pets Express - Sistema Completo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐾 Kaju Pets Express 🐾</h1>
+            <p>Sistema Completo para Pet Shop - Banho, Tosa, Veterinário, Farmácia e Delivery</p>
+            
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('home')">🏠 Início</button>
+                <button class="nav-tab" onclick="showSection('produtos')">🛍️ Produtos</button>
+                <button class="nav-tab" onclick="showSection('servicos')">✂️ Serviços</button>
+                <button class="nav-tab" onclick="showSection('delivery')">🚚 Delivery</button>
+                <button class="nav-tab" onclick="showSection('veterinario')">🩺 Veterinário</button>
+                <button class="nav-tab" onclick="showSection('admin')">⚙️ Admin</button>
+            </div>
+        </div>
+
+        <!-- Seção Início -->
+        <div id="home" class="content-section active">
+            <h2>🏠 Bem-vindo ao PetCare Express!</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProdutos">0</div>
+                    <div>Produtos Cadastrados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalPedidos">0</div>
+                    <div>Pedidos Realizados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalServicos">0</div>
+                    <div>Serviços Agendados</div>
+                </div>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card" onclick="showSection('produtos')">
+                    <div class="service-icon">🛍️</div>
+                    <h3>Farmácia Pet</h3>
+                    <p>Medicamentos e produtos de saúde para seu pet</p>
+                </div>
+                <div class="service-card" onclick="showSection('servicos')">
+                    <div class="service-icon">✂️</div>
+                    <h3>Banho & Tosa</h3>
+                    <p>Serviços de higiene e estética para seu pet</p>
+                </div>
+                <div class="service-card" onclick="showSection('delivery')">
+                    <div class="service-icon">🚚</div>
+                    <h3>Busca & Entrega</h3>
+                    <p>Buscamos seu pet e entregamos produtos em casa</p>
+                </div>
+                <div class="service-card" onclick="showSection('veterinario')">
+                    <div class="service-icon">🩺</div>
+                    <h3>Veterinário</h3>
+                    <p>Consultas e cuidados médicos especializados</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Produtos -->
+        <div id="produtos" class="content-section">
+            <h2>🛍️ Farmácia Pet - Produtos</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h3>📦 Cadastrar Novo Produto</h3>
+                    <form id="produtoForm">
+                        <div class="form-group">
+                            <label>Nome do Produto:</label>
+                            <input type="text" id="produtoNome" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria:</label>
+                            <select id="produtoCategoria" required>
+                                <option value="">Selecione uma categoria</option>
+                                <option value="medicamentos">Medicamentos</option>
+                                <option value="racao">Ração</option>
+                                <option value="brinquedos">Brinquedos</option>
+                                <option value="higiene">Higiene</option>
+                                <option value="acessorios">Acessórios</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Preço (R$):</label>
+                            <input type="number" id="produtoPreco" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descrição:</label>
+                            <textarea id="produtoDescricao" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn">➕ Cadastrar Produto</button>
+                    </form>
+                </div>
+
+                <div>
+                    <h3>🔍 Buscar Produtos</h3>
+                    <div class="form-group">
+                        <input type="text" id="searchProdutos" placeholder="Buscar por nome ou categoria..." oninput="filtrarProdutos()">
+                    </div>
+                    <div class="form-group">
+                        <select id="filtroCategoria" onchange="filtrarProdutos()">
+                            <option value="">Todas as categorias</option>
+                            <option value="medicamentos">Medicamentos</option>
+                            <option value="racao">Ração</option>
+                            <option value="brinquedos">Brinquedos</option>
+                            <option value="higiene">Higiene</option>
+                            <option value="acessorios">Acessórios</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="produtosList" class="produtos-grid">
+                <div class="loading">Carregando produtos...</div>
+            </div>
+        </div>
+
+        <!-- Seção Serviços -->
+        <div id="servicos" class="content-section">
+            <h2>✂️ Serviços - Banho & Tosa</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h3>📅 Agendar Serviço</h3>
+                    <form id="servicoForm">
+                        <div class="form-group">
+                            <label>Nome do Pet:</label>
+                            <input type="text" id="servicoPet" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nome do Tutor:</label>
+                            <input type="text" id="servicoTutor" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone:</label>
+                            <input type="tel" id="servicoTelefone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Serviço:</label>
+                            <select id="servicoTipo" required>
+                                <option value="">Selecione o serviço</option>
+                                <option value="banho">Banho Simples - R$ 25,00</option>
+                                <option value="banho-tosa">Banho + Tosa - R$ 45,00</option>
+                                <option value="tosa-higienica">Tosa Higiênica - R$ 20,00</option>
+                                <option value="spa">Spa Completo - R$ 80,00</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Data:</label>
+                            <input type="date" id="servicoData" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Horário:</label>
+                            <select id="servicoHorario" required>
+                                <option value="">Selecione o horário</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">📅 Agendar Serviço</button>
+                    </form>
+                </div>
+
+                <div>
+                    <h3>📋 Serviços Agendados</h3>
+                    <div id="servicosList">
+                        <div class="loading">Carregando agendamentos...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Delivery -->
+        <div id="delivery" class="content-section">
+            <h2>🚚 Delivery - Busca & Entrega</h2>
+            
+            <div class="alert alert-info">
+                <strong>🚚 Serviço de Busca & Entrega:</strong> Buscamos seu pet para serviços ou entregamos produtos em casa!
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3>📦 Solicitar Entrega</h3>
+                    <form id="deliveryForm">
+                        <div class="form-group">
+                            <label>Tipo de Solicitação:</label>
+                            <select id="deliveryTipo" required>
+                                <option value="">Selecione o tipo</option>
+                                <option value="busca-pet">Buscar Pet para Serviço</option>
+                                <option value="entrega-produto">Entregar Produto</option>
+                                <option value="drive-thru">Drive-Thru Farmácia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nome do Cliente:</label>
+                            <input type="text" id="deliveryCliente" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone:</label>
+                            <input type="tel" id="deliveryTelefone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Endereço Completo:</label>
+                            <textarea id="deliveryEndereco" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Observações:</label>
+                            <textarea id="deliveryObs" rows="2" placeholder="Detalhes do pedido, nome do pet, produtos, etc."></textarea>
+                        </div>
+                        <button type="submit" class="btn">🚚 Solicitar Delivery</button>
+                    </form>
+                </div>
+
+                <div>
+                    <h3>📋 Pedidos de Delivery</h3>
+                    <div id="deliveryList">
+                        <div class="loading">Carregando pedidos...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Veterinário -->
+        <div id="veterinario" class="content-section">
+            <h2>🩺 Veterinário - Consultas</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h3>📅 Agendar Consulta</h3>
+                    <form id="veterinarioForm">
+                        <div class="form-group">
+                            <label>Nome do Pet:</label>
+                            <input type="text" id="vetPet" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Espécie:</label>
+                            <select id="vetEspecie" required>
+                                <option value="">Selecione</option>
+                                <option value="cao">Cão</option>
+                                <option value="gato">Gato</option>
+                                <option value="ave">Ave</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nome do Tutor:</label>
+                            <input type="text" id="vetTutor" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone:</label>
+                            <input type="tel" id="vetTelefone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Consulta:</label>
+                            <select id="vetTipo" required>
+                                <option value="">Selecione</option>
+                                <option value="consulta-geral">Consulta Geral - R$ 60,00</option>
+                                <option value="vacinacao">Vacinação - R$ 40,00</option>
+                                <option value="emergencia">Emergência - R$ 120,00</option>
+                                <option value="cirurgia">Cirurgia - R$ 300,00</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Data:</label>
+                            <input type="date" id="vetData" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Horário:</label>
+                            <select id="vetHorario" required>
+                                <option value="">Selecione</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Sintomas/Observações:</label>
+                            <textarea id="vetObservacoes" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn">🩺 Agendar Consulta</button>
+                    </form>
+                </div>
+
+                <div>
+                    <h3>📋 Consultas Agendadas</h3>
+                    <div id="veterinarioList">
+                        <div class="loading">Carregando consultas...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Admin -->
+        <div id="admin" class="content-section">
+            <h2>⚙️ Painel Administrativo</h2>
+            
+            <div class="alert alert-info">
+                <strong>💾 Simulação de Backend:</strong> Este sistema simula um backend completo com API REST, banco de dados e todas as funcionalidades requisitadas.
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="adminTotalProdutos">0</div>
+                    <div>Total de Produtos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminTotalServicos">0</div>
+                    <div>Serviços Agendados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminTotalDelivery">0</div>
+                    <div>Pedidos Delivery</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="adminTotalVeterinario">0</div>
+                    <div>Consultas Veterinárias</div>
+                </div>
+            </div>
+
+            <h3>🔧 Funcionalidades do Sistema</h3>
+            <div class="produtos-grid">
+                <div class="produto-card">
+                    <h4>📊 API REST Simulada</h4>
+                    <p><strong>GET /produtos</strong> - Listar produtos</p>
+                    <p><strong>POST /produtos</strong> - Cadastrar produto</p>
+                    <p><strong>DELETE /produtos/:id</strong> - Excluir produto</p>
+                </div>
+                <div class="produto-card">
+                    <h4>💾 Banco de Dados</h4>
+                    <p>Simulação de banco SQLite em memória</p>
+                    <p>Armazenamento de produtos, serviços e pedidos</p>
+                </div>
+                <div class="produto-card">
+                    <h4>🚚 Sistema de Delivery</h4>
+                    <p>Busca e entrega de pets</p>
+                    <p>Drive-thru da farmácia</p>
+                    <p>Entrega de medicamentos</p>
+                </div>
+                <div class="produto-card">
+                    <h4>🩺 Agendamento Veterinário</h4>
+                    <p>Consultas especializadas</p>
+                    <p>Controle de horários</p>
+                    <p>Histórico de atendimentos</p>
+                </div>
+            </div>
+
+            <h3>🛠️ Ações Administrativas</h3>
+            <button class="btn" onclick="exportarDados()">📤 Exportar Dados</button>
+            <button class="btn" onclick="gerarRelatorio()">📊 Gerar Relatório</button>
+            <button class="btn btn-danger" onclick="limparDados()">🗑️ Limpar Dados</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

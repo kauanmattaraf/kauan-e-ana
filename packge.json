@@ -1,0 +1,24 @@
+{
+  "name": "petcare-express-backend",
+  "version": "1.0.0",
+  "description": "Backend de simulação para o sistema PetCare Express, com API REST para produtos, serviços, delivery e veterinário.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "petshop",
+    "backend",
+    "nodejs",
+    "express",
+    "api-rest",
+    "simulacao"
+  ],
+  "author": "Seu Nome Aqui",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
